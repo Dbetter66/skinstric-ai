@@ -1,23 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Home from './components/Home';
-import Start from './components/Start';
-import Analysis from './components/Analysis';
+import Testing from './components/Testing';
+import Result from './components/Result';
+import Nav from './components/Nav';
+import Select from './components/Select';
+import Summary from './components/Summary';
 
-// ... (Your page components like HomePage, AboutPage, etc.)
 
 function App() {
 
   return (
-    
-
-
         <Router>
+          <Nav />
         <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/start" element={<Start />} />
-        <Route path="Analysis" element={<Analysis />} />
+        <Route path="/testing" element={<Testing />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/select" element={<Select />} />
+        <Route path="/summary" element={<Summary />} />
       </Routes>
       </Router>
       
