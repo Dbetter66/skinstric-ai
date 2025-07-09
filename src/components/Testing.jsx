@@ -2,7 +2,6 @@ import React from "react";
 
 function Testing() {
   return (
-    <body className="__className_5f0add antialiased text-[#1A1B1C] ">
       <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
         <div className="absolute top-16 left-9 text-left">
           <p className="font-semibold text-xs">TO START ANALYSIS</p>
@@ -34,7 +33,7 @@ function Testing() {
             height="762"
             decoding="async"
             data-nimg="1"
-            className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow rotate-190"
+            className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slowest rotate-190"
             src="./largediamond.svg"
           ></img>
           <img
@@ -79,7 +78,6 @@ function Testing() {
           </a>
         </div>
       </div>
-    </body>
   );
 }
 
