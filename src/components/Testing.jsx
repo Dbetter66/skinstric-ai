@@ -33,7 +33,7 @@ function Testing() {
             height="762"
             decoding="async"
             data-nimg="1"
-            className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slowest rotate-190"
+            className="absolute w-[480px] h-[480px] md:w-[762px] md:h-[762px] animate-spin-slow [animation-duration:50s] rotate-190"
             src="./largediamond.svg"
           ></img>
           <img
@@ -43,7 +43,7 @@ function Testing() {
             height="682"
             decoding="async"
             data-nimg="1"
-            className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower rotate-185"
+            className="absolute w-[400px] h-[400px] md:w-[682px] md:h-[682px] animate-spin-slower [animation-duration:70s] rotate-185"
             src="./mediumdiamond.svg"
           ></img>
           <img
@@ -53,7 +53,7 @@ function Testing() {
             height="602"
             decoding="async"
             data-nimg="1"
-            className="absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-1/2 w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest"
+            className="absolute w-[320px] h-[320px] md:w-[602px] md:h-[602px] animate-spin-slowest [animation-duration:85s]"
             src="./smalldiamond.svg"
           ></img>
         </div>
