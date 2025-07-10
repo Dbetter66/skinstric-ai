@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Testing() {
+  const [name, setName] = useState('');
+  const [city, setCity] = useState('');
+  const [apiData, setApiData] = useState(null);
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      setApiData(JSON.parse(storedData));
+    }
+  }, []);
+
+  // Save data to localStorage when apiData changes
+  useEffect(() => {
+    if (apiData) {
+      localStorage.setItem('userData', JSON.stringify(apiData));
+    }
+  }, [apiData]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne=${name}&city=${city}`); // Replace with your API endpoint
+      const data = await response.json();
+      setApiData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   return (
       <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
         <div className="absolute top-16 left-9 text-left">
@@ -11,6 +41,7 @@ function Testing() {
             CLICK TO TYPE
           </p>
           <form
+          onSubmit={handleSubmit}
             action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
             className="relative z-10"
           >
@@ -21,10 +52,32 @@ function Testing() {
               autoComplete="off"
               type="text"
               name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             ></input>
             <button type="submit" className="sr-only">
               Submit
             </button>
+
+          </form>
+          <form
+          onSubmit={handleSubmit}
+            action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
+            className="relative z-10"
+          >
+            <div className="flex flex-col items-center"></div>
+            <input
+              className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
+              placeholder="your city name"
+              autoComplete="off"
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            ></input>
+            <button type="submit" className="sr-only">
+              Submit
+            </button>
+            
           </form>
           <img
             alt="largediamond"
@@ -57,7 +110,7 @@ function Testing() {
             src="./smalldiamond.svg"
           ></img>
         </div>
-        <div className="absolute bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13">
+        <div className="bottom-38.5 md:bottom-8 w-full flex justify-between md:px-9 px-13 sm:bottom-10">
           <a className="inset-0" aria-label="Back" href="/">
             <div>
               <div className="relative w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
