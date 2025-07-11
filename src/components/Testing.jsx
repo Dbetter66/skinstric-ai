@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
 
-function Testing() { // Removed 'data' prop as it wasn't being used within the component
+function Testing() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [apiData, setApiData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false); // New state for loading status
-  const [error, setError] = useState(null); // New state for API errors
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Load data from localStorage on component mount
   useEffect(() => {
     const storedData = localStorage.getItem("userData");
     if (storedData) {
       setApiData(JSON.parse(storedData));
-      // Optionally, you might want to pre-fill the name/location if available in storedData
       const parsedData = JSON.parse(storedData);
       if (parsedData.name) setName(parsedData.name);
       if (parsedData.location) setLocation(parsedData.location);
@@ -30,8 +28,8 @@ function Testing() { // Removed 'data' prop as it wasn't being used within the c
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
-    setError(null); // Clear previous errors
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await fetch(
@@ -44,19 +42,14 @@ function Testing() { // Removed 'data' prop as it wasn't being used within the c
           body: JSON.stringify({ name, location }),
         }
       );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json(); // Parse the response data
+      const data = await response.json();
       setApiData(data);
-      nextStep(); // Move to the next step on successful submission
+      nextStep(); // Move to the confirmation step on successful submission
     } catch (error) {
       console.error("Error fetching data:", error);
-      setError("Failed to submit data. Please try again."); // Set an error message
+      setError("Failed to submit data. Please try again.");
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false);
     }
   };
 
@@ -76,16 +69,19 @@ function Testing() { // Removed 'data' prop as it wasn't being used within the c
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
+  const handleProceedToImport = () => {
+    // Here you would implement the logic to proceed with the import
+    console.log("Proceeding to import...");
+    // For example, navigate to a new page or trigger another API call
+  };
+
   return (
     <div className="min-h-[90vh] flex flex-col items-center justify-center bg-white text-center">
       <div className="absolute top-16 left-9 text-left">
         <p className="font-semibold text-xs">TO START ANALYSIS</p>
       </div>
       <div className="relative flex flex-col items-center justify-center mb-40 w-full h-full">
-        <p className="text-sm text-gray-400 tracking-wider uppercase mb-1">
-          CLICK TO TYPE
-        </p>
-
+        <p className="text-sm text-gray-400 tracking-wider uppercase mb-1"> CLICK TO TYPE </p>
         {isLoading && <p>Submitting...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
@@ -104,7 +100,6 @@ function Testing() { // Removed 'data' prop as it wasn't being used within the c
             <button type="submit" className="sr-only">
               Submit
             </button>
-            {/* You might want a visible button to proceed to the next step, or trigger nextStep on input blur */}
             <button type="button" onClick={nextStep}></button>
           </form>
         )}
@@ -124,8 +119,28 @@ function Testing() { // Removed 'data' prop as it wasn't being used within the c
               Submit
             </button>
             <button type="button" onClick={prevStep}></button>
-            <button type="submit">Submit</button>
+            <button type="submit"></button>
           </form>
+        )}
+
+        {currentStep === 3 && ( // New step for confirmation
+          <div className="relative z-10">
+            <p className="text-3xl sm:text-4xl font-normal text-center tracking-[-0.07em] leading-[64px] text-[#1A1B1C] mb-4">
+              Submission Successful!
+            </p>
+            {apiData && (
+              <p className="text-lg text-gray-700 mb-6">
+                Thank you, {apiData.name || "user"}. Your data has been recorded.
+              </p>
+            )}
+            <button
+              onClick={handleProceedToImport}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Proceed to Import
+            </button>
+            <button type="button" onClick={prevStep}></button>
+          </div>
         )}
         <img
           alt="largediamond"
