@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 function Testing() {
   const [name, setName] = useState("");
@@ -23,7 +24,7 @@ function Testing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `https://us-central1-frontend-simplified.cloudfunctions.net/skinstricPhaseOne=${name}&city=${city}`
       ); // Replace with your API endpoint
       const data = await response.json();
@@ -60,7 +61,7 @@ function Testing() {
         <p className="text-sm text-gray-400 tracking-wider uppercase mb-1">
           CLICK TO TYPE
         </p>
-
+        {currentStep === 1 && (
         <form
           onSubmit={handleSubmit}
           action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
@@ -80,6 +81,8 @@ function Testing() {
             Submit
           </button>
         </form>
+      )}
+      {currentStep === 2 && (
         <form
           onSubmit={handleSubmit}
           action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
@@ -98,6 +101,7 @@ function Testing() {
             Submit
           </button>
         </form>
+        )}
         <img
           alt="largediamond"
           loading="lazy"
