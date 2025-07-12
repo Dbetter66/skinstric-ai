@@ -31,24 +31,33 @@ function Testing() {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch(
-        `https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, location }),
-        }
-      );
-      const data = await response.json();
-      setApiData(data);
-      nextStep(); // Move to the confirmation step on successful submission
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError("Failed to submit data. Please try again.");
-    } finally {
+    // Only submit if both name and location are available
+    if (name && location) {
+      try {
+        const response = await fetch(
+          `https://us-central1-api-skinstric-ai.cloudfunctions.net/skinstricPhaseOne`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, location }),
+          }
+        );
+        const data = await response.json();
+        setApiData(data);
+        console.log(`{SUCCESS: Added ${name} from ${location}}`)
+        nextStep(); // Move to the confirmation step on successful submission
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("Failed to submit data. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // If either name or location is missing, don't submit and optionally provide feedback
+      console.log("Name and location are required for submission.");
+      setError("Please provide both your name and location.");
       setIsLoading(false);
     }
   };
@@ -71,7 +80,7 @@ function Testing() {
 
   const handleProceedToImport = () => {
     // Here you would implement the logic to proceed with the import
-    console.log("Proceeding to import...");
+    console.log("Processing submission...");
     // For example, navigate to a new page or trigger another API call
   };
 
@@ -86,7 +95,7 @@ function Testing() {
         {error && <p className="text-red-500">{error}</p>}
 
         {currentStep === 1 && (
-          <form onSubmit={handleSubmit} className="relative z-10">
+          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="relative z-10">
             <div className="flex flex-col items-center"></div>
             <input
               className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
@@ -97,10 +106,7 @@ function Testing() {
               value={name}
               onChange={handleNameChange}
             ></input>
-            <button type="submit" className="sr-only">
-              Submit
-            </button>
-            <button type="button" onClick={nextStep}></button>
+            <button type="submit" className="sr-only"> Next </button> {/* Change to 'Next' button */}
           </form>
         )}
 
@@ -115,31 +121,23 @@ function Testing() {
               value={location}
               onChange={handleLocationChange}
             ></input>
-            <button type="submit" className="sr-only">
-              Submit
-            </button>
+            <button type="submit" className="sr-only"> Submit </button> 
             <button type="button" onClick={prevStep}></button>
             <button type="submit"></button>
           </form>
         )}
 
-        {currentStep === 3 && ( // New step for confirmation
+        {currentStep === 3 && (
+          // New step for confirmation
           <div className="relative z-10">
             <p className="text-3xl sm:text-4xl font-normal text-center tracking-[-0.07em] leading-[64px] text-[#1A1B1C] mb-4">
-              Submission Successful!
+              Thank You!
             </p>
             {apiData && (
               <p className="text-lg text-gray-700 mb-6">
-                Thank you, {apiData.name || "user"}. Your data has been recorded.
+                Proceed for the next step
               </p>
             )}
-            <button
-              onClick={handleProceedToImport}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Proceed to Import
-            </button>
-            <button type="button" onClick={prevStep}></button>
           </div>
         )}
         <img
@@ -192,8 +190,20 @@ function Testing() {
             </div>
           </div>
         </a>
+        {currentStep === 3 && (
+        <a className="inline-block" href="/result">
+            <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
+              <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">PROCEED</span>
+            </div>
+            <div className="group hidden sm:flex flex-row relative justify-center items-center">
+              <span className="text-sm font-semibold hidden sm:block mr-5">PROCEED</span>
+              <div className=" w-12 h-12 hidden sm:flex justify-center border border-[#1A1B1C] rotate-45 scale-[0.85] group-hover:scale-[0.92] ease duration-300"></div>
+              <span className="absolute right-[15px] bottom-[13px] scale-[0.9] hidden sm:block group-hover:scale-[0.92] ease duration-300">▶</span>
+            </div>
+            </a>
+        )}
+          </div>
       </div>
-    </div>
   );
 }
 
