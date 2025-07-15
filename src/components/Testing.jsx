@@ -135,7 +135,7 @@ function Testing() {
             </p>
             {apiData && (
               <p className="text-lg text-gray-700 mb-6">
-                Proceed for the next step
+                Proceed to the next step
               </p>
             )}
           </div>
