@@ -6,6 +6,8 @@ import Result from './components/Result';
 import Nav from './components/Nav';
 import Select from './components/Select';
 import Summary from './components/Summary';
+import Camera from './components/Camera';
+import Capture from './components/Capture';
 
 
 function App() {
@@ -17,8 +19,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/result" element={<Result />} />
+        <Route path="/camera" element={<Camera />} />
+        <Route path="/capture" element={<Capture />} />
         <Route path="/select" element={<Select />} />
-        <Route path="/summary" element={<Summary />} />
+        <Route path="/summary/:id" element={<Summary />} />
       </Routes>
       </Router>
       

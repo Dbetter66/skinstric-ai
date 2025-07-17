@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Result() {
   const fileInputRef = useRef(null);
@@ -67,6 +68,8 @@ function Result() {
     navigate("/select"); // Navigate to the Select component's path.
   };
 
+  const [showCameraPermission, setShowCameraPermission] = useState(false);
+
   return (
     <div className="min-h-[80vh] flex flex-col bg-white relative md:pt-[64px] justify-center">
       <div className="absolute top-2 left-9 md:left-8 text-left">
@@ -110,16 +113,21 @@ function Result() {
           ></img>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <img
-                alt="shutter-icon"
-                loading="lazy"
-                width="136"
-                height="136"
-                decoding="async"
-                data-nimg="1"
-                className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] transform transition-transform duration-300 hover:scale-110 ease-in-out cursor-pointer"
-                src="./shutter-icon.svg"
-              ></img>
+              <button
+                className="absolute inset-0 flex flex-col items-center justify-center"
+                onClick={() => setShowCameraPermission(true)}
+              >
+                <img
+                  alt="shutter-icon"
+                  loading="lazy"
+                  width="136"
+                  height="136"
+                  decoding="async"
+                  data-nimg="1"
+                  className="absolute w-[100px] h-[100px] md:w-[136px] md:h-[136px] transform transition-transform duration-300 hover:scale-110 ease-in-out cursor-pointer"
+                  src="./shutter-icon.svg"
+                />
+              </button>
               <div className="absolute bottom-[1%] right-[90px] md:top-[30.9%] md:right-[-12px] translate-y-[-20px]">
                 <p className="text-xs md:text-sm font-normal mt-1 leading-[24px]">
                   ALLOW A.I
@@ -269,6 +277,34 @@ function Result() {
           </div>
         </div>
       </div>
+      {showCameraPermission && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center transition-opacity duration-300 ease-in-out">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center animate-fade-in">
+            <h2 className="text-lg font-semibold mb-4">Allow camera access?</h2>
+            <p className="text-sm mb-6">
+              Skinstric would like to access your camera to begin face scanning.
+            </p>
+            <div className="flex justify-around">
+              <button
+                className="bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition"
+                onClick={() => {
+                  setShowCameraPermission(false);
+                  navigate("/camera");
+                }}
+              >
+                ALLOW
+              </button>
+
+              <button
+                className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 transition"
+                onClick={() => setShowCameraPermission(false)}
+              >
+                DENY
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
