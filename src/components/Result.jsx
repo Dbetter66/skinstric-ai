@@ -305,6 +305,18 @@ function Result() {
           </div>
         </div>
       )}
+      {isLoading && (
+  <div className="fixed inset-0 z-50 bg-white bg-opacity-90 flex flex-col items-center justify-center">
+    <p className="text-lg md:text-2xl font-semibold text-black mb-4">
+      PREPARING YOUR ANALYSIS...
+    </p>
+    <div className="flex space-x-2">
+      <span className="w-2 h-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+      <span className="w-2 h-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+      <span className="w-2 h-2 bg-black rounded-full animate-bounce"></span>
+    </div>
+  </div>
+)}
     </div>
   );
 }

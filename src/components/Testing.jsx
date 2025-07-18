@@ -95,36 +95,63 @@ function Testing() {
         {error && <p className="text-red-500">{error}</p>}
 
         {currentStep === 1 && (
-          <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className="relative z-10">
-            <div className="flex flex-col items-center"></div>
-            <input
-              className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
-              placeholder="Introduce Yourself"
-              autoComplete="off"
-              type="text"
-              name="name"
-              value={name}
-              onChange={handleNameChange}
-            ></input>
-            <button type="submit" className="sr-only"> Next </button> {/* Change to 'Next' button */}
-          </form>
+         <form onSubmit={(e) => e.preventDefault()} className="relative z-10">
+         <div className="flex flex-col items-center"></div>
+         <input
+           className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
+           placeholder="Introduce Yourself"
+           autoComplete="off"
+           type="text"
+           name="name"
+           value={name}
+           onChange={handleNameChange}
+         />
+         <button
+           type="button"
+           onClick={nextStep}
+           disabled={!name}
+           className={`mt-6 px-6 py-2 border border-black text-sm font-semibold tracking-wide uppercase ${
+             name ? "opacity-100 cursor-pointer" : "opacity-50 cursor-not-allowed"
+           }`}
+         >
+           Next
+         </button>
+       </form>
+       
         )}
 
         {currentStep === 2 && (
-          <form onSubmit={handleSubmit} className="relative z-10">
-            <div className="flex flex-col items-center"></div>
-            <input
-              className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
-              placeholder="your city name"
-              autoComplete="off"
-              type="text"
-              value={location}
-              onChange={handleLocationChange}
-            ></input>
-            <button type="submit" className="sr-only"> Submit </button> 
-            <button type="button" onClick={prevStep}></button>
-            <button type="submit"></button>
-          </form>
+          <form onSubmit={(e) => e.preventDefault()} className="relative z-10">
+          <div className="flex flex-col items-center"></div>
+          <input
+            className="text-5xl sm:text-6xl font-normal text-center bg-transparent border-b border-black focus:outline-none appearance-none w-[372px] sm:w-[432px] pt-1 tracking-[-0.07em] leading-[64px] text-[#1A1B1C] z-10"
+            placeholder="your city name"
+            autoComplete="off"
+            type="text"
+            value={location}
+            onChange={handleLocationChange}
+          />
+          <div className="flex gap-4 mt-6">
+            <button
+              type="button"
+              onClick={prevStep}
+              className="px-6 py-2 border border-black text-sm font-semibold tracking-wide uppercase"
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!location}
+              className={`px-6 py-2 border border-black text-sm font-semibold tracking-wide uppercase ${
+                location ? "opacity-100 cursor-pointer" : "opacity-50 cursor-not-allowed"
+              }`}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+        
         )}
 
         {currentStep === 3 && (

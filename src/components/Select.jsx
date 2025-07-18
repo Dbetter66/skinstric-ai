@@ -83,7 +83,7 @@ function Select() {
                 </div>
             </div>
             </a>
-            <a href="/summary">
+            <a href="/summary/:id">
             <div>
                 <div className=" w-12 h-12 flex items-center justify-center border border-[#1A1B1C] rotate-45 scale-[1] sm:hidden">
                     <span className="rotate-[-45deg] text-xs font-semibold sm:hidden">SUM</span>
